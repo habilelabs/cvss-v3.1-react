@@ -1,5 +1,27 @@
-# jw-react-npm-boilerplate
+#CVSSV3.1 React
 
-React Boilerplate Component for npm
+CVSS (Common Vulnerability Scoring System) Calculator
 
-Documentation and instructions on how to publish a React component to npm available at http://jasonwatmore.com/post/2018/04/14/react-npm-how-to-publish-a-react-component-to-npm
+<a href="http://cvssjs.github.io/cvssjs">Standalone Calculator</a>
+
+CVSSjs Version 0.9.1 beta
+
+Usage:
+    // set a vector
+    c.set('CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L');
+    
+    // it is also backwards compatible with CVSS v2 vectors, 
+    // buts only sets the parameters that can be set without ambiguity.
+    c.set('AV:L/AC:L/Au:N/C:P/I:P/A:C');
+    
+    //get the value
+    c.get() returns an object like:
+      {
+        score: 4.3,
+        vector: 'CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:N/I:N/A:L'
+      }
+
+
+Copyright (c) 2015-2019, Shankar Morwal.
+
+Copyright (c) 2019, Habilelabs.io
