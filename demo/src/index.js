@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import CvssV3 from './CvssV3';
+import CvssV3 from 'cvss-v3.1-react';
 
 render(
   <div>
