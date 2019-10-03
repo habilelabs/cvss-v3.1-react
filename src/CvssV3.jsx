@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import BoilerplateComponent from "./BoilerplateComponent";
 //base matrics config
 const baseMatrices = [
     {
