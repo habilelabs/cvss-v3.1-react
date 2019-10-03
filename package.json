@@ -1,16 +1,17 @@
 {
-    "name": "jw-react-npm-boilerplate",
-    "version": "1.0.1",
-    "description": "React Boilerplate Component for npm",
-    "homepage": "http://jasonwatmore.com/post/2018/04/14/react-npm-how-to-publish-a-react-component-to-npm",
+    "name": "cvss-v3.1-react",
+    "version": "1.0.0",
+    "description": "CVSS V3.1 calculator",
+    "homepage": "https://github.com/habilelabs/cvss-v3.1-react",
+    "author": "Shankar Morwal (shankar@habilelabs.io)",
     "keywords": [
         "React",
-        "Boilerplate",
-        "npm"
+        "CVSS",
+        "CVSS3.1"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/cornflourblue/jw-react-npm-boilerplate"
+        "url": "https://github.com/habilelabs/cvss-v3.1-react"
     },
     "main": "./lib/BoilerplateComponent.js",
     "license": "MIT",
