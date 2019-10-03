@@ -13,7 +13,7 @@
         "type": "git",
         "url": "https://github.com/habilelabs/cvss-v3.1-react"
     },
-    "main": "./lib/BoilerplateComponent.js",
+    "main": "./lib/CvssV3.js",
     "license": "MIT",
     "scripts": {
         "build": "webpack"
