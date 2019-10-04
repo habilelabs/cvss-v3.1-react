@@ -8,10 +8,11 @@
         "start": "webpack-dev-server --open"
     },
     "dependencies": {
-        "cvss-v3.1-react": "0.9.3",
+        "cvss-v3.1-react": "0.9.4",
         "prop-types": "^15.6.0",
         "react": "^16.0.0",
-        "react-dom": "^16.0.0"
+        "react-dom": "^16.0.0",
+        "react-tooltip": "^3.11.1"
     },
     "devDependencies": {
         "babel-core": "^6.21.0",
