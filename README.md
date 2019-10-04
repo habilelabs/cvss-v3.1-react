@@ -16,13 +16,13 @@ npm install cvss-v3.1-react
 
 **Using NPM**
 
-1 . Require react-tooltip after installation
+1 . Require cvss-v3.1-react after installation
 
 ```js
 import CvssV3 from 'cvss-v3.1-react'
 ```
 
-2 . Include react-tooltip component
+2 . Include cvss-v3.1-react component
 
 
 ```js
