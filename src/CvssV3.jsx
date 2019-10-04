@@ -242,8 +242,8 @@ function SingleMatricesItem(props) {
         props.selectedMatricesOption(props.data.key, option.name);
     }
     return (
-        <div style={{...props.styles.listItemLi}}>
-            <h3 style={{...props.styles.listItemHeading}}>{matricesData.name}</h3>
+        <div style={{...props.styles.matricesItem}}>
+            <h3 style={{...props.styles.matricesTitle}}>{matricesData.name}</h3>
             {
                 matricesData.options.map((option, key) => {
                     return (<MatricesOption key={key}
@@ -268,7 +268,7 @@ function MatricesOption(props) {
     return (
         <button onClick={() => {
             props.optionSelected(props.option)
-        }} title={props.option.d} style={{...props.styles.listItemBtn, ...props.styles[(props.selectedOption === props.option.name ? 'selected' : '')]}} className={"btn " + (props.selectedOption === props.option.name ? 'selected' : '')}>
+        }} title={props.option.d} style={{...props.styles.severityBtn, ...props.styles[(props.selectedOption === props.option.name ? 'selected' : '')]}} className={"btn " + (props.selectedOption === props.option.name ? 'selected' : '')}>
             {props.option.l}
         </button>
     );
@@ -281,17 +281,17 @@ const propTypes = {
 
 const defaultProps = {
     styles: {
-        listItemHeading: {
+        matricesTitle: {
             minWidth: 200,
             font: '400 16px Arial',
             marginRight: 15
         },
-        listItemLi: {
+        matricesItem: {
             display: 'flex',
             alignItems: 'center',
             font: '400 13.3333px Arial'
         },
-        listItemBtn: {
+        severityBtn: {
             background: 'none',
             border: 'solid 1px #ccc',
             borderRadius: 3,
@@ -473,14 +473,14 @@ class CvssV3 extends Component {
                     })
                 }
                 <div style={{...styles.scoreBar}}>
-                    <h3 style={{...styles.listItemHeading}}>Severity Score Vector</h3>
+                    <h3 style={{...styles.matricesTitle}}>Severity Score Vector</h3>
                     <button
-                        style={{...styles.listItemBtn, ...styles[this.state.severityRating.name]}}
+                        style={{...styles.severityBtn, ...styles[this.state.severityRating.name]}}
                         title={this.state.severityRating.bottom + '-' + this.state.severityRating.top}>
                         {this.state.severityRating.name}
                     </button>
-                    <span style={{...styles.listItemHeading}}>{this.state.score}</span>
-                    <span style={{...styles.listItemHeading, ...styles.scoreTextColor}}>{this.state.scoreVector}</span>
+                    <span style={{...styles.matricesTitle}}>{this.state.score}</span>
+                    <span style={{...styles.matricesTitle, ...styles.scoreTextColor}}>{this.state.scoreVector}</span>
                 </div>
             </div>
         );
