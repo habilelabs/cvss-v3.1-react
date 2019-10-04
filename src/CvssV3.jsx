@@ -242,12 +242,13 @@ function SingleMatricesItem(props) {
         props.selectedMatricesOption(props.data.key, option.name);
     }
     return (
-        <div>
-            <p>{matricesData.name}</p>
+        <div style={{...props.styles.listItemLi}}>
+            <h3 style={{...props.styles.listItemHeading}}>{matricesData.name}</h3>
             {
                 matricesData.options.map((option, key) => {
                     return (<MatricesOption key={key}
                                             option={option}
+                                            styles = {props.styles}
                                             selectedOption={props.selectedOption}
                                             optionSelected={optionSelected}/>)
                 })
@@ -267,27 +268,63 @@ function MatricesOption(props) {
     return (
         <button onClick={() => {
             props.optionSelected(props.option)
-        }} title={props.option.d} className={"btn " + (props.selectedOption === props.option.name ? 'selected' : '')}>
+        }} title={props.option.d} style={{...props.styles.listItemBtn, ...props.styles[(props.selectedOption === props.option.name ? 'selected' : '')]}} className={"btn " + (props.selectedOption === props.option.name ? 'selected' : '')}>
             {props.option.l}
         </button>
     );
 }
 
 const propTypes = {
-    label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     styles: PropTypes.object
 }
 
 const defaultProps = {
     styles: {
-        label: {
-            fontFamily: 'Comic Sans MS',
-            color: 'green'
+        listItemHeading: {
+            minWidth: 200,
+            font: '400 16px Arial',
+            marginRight: 15
         },
-        input: {
-            background: '#ddd',
-            border: '1px solid red'
+        listItemLi: {
+            display: 'flex',
+            alignItems: 'center',
+            font: '400 13.3333px Arial'
+        },
+        listItemBtn: {
+            background: 'none',
+            border: 'solid 1px #ccc',
+            borderRadius: 3,
+            padding: '0 20px',
+            height: 36,
+            marginRight: 15,
+            cursor: 'pointer'
+        },
+        selected: {
+            background: 'blue',
+            color: 'white'
+        },
+        scoreTextColor: {
+            color: 'blue'
+        },
+        scoreBar: {
+            background: '#f7f8f9',
+            padding: '1px 10px 15px'
+        },
+        None: {
+            background: 'rgb(162, 213, 114)'
+        },
+        Low: {
+            background: 'rgb(208, 212, 134)'
+        },
+        Medium: {
+            background: 'rgb(250, 230, 120)'
+        },
+        High: {
+            background: 'rgb(240, 170, 83)'
+        },
+        Critical: {
+            background: 'rgb(240, 130, 120)'
         }
     }
 }
@@ -412,11 +449,13 @@ class CvssV3 extends Component {
             selectedMatrices: newState
         });
         let score = this.calculate();
-        this.setState({
+        let updateState = {
             scoreVector: this.createScoreVector(newState),
             score: score,
             severityRating: this.severityRating(score)
-        });
+        }
+        this.setState(updateState);
+        this.props.onChange(updateState);
     }
 
     render() {
@@ -426,18 +465,23 @@ class CvssV3 extends Component {
                 {
                     baseMatrices.map((baseMatricesItem) => {
                         return (<SingleMatricesItem key={baseMatricesItem.key}
-                                          data={baseMatricesItem}
-                                          selectedMatricesOption={this.selectedMatricesOption}
-                                          selectedOption={this.state.selectedMatrices[baseMatricesItem.key]}/>
+                                                    data={baseMatricesItem}
+                                                    styles = {styles}
+                                                    selectedMatricesOption={this.selectedMatricesOption}
+                                                    selectedOption={this.state.selectedMatrices[baseMatricesItem.key]}/>
                         )
                     })
                 }
-                <button
-                    title={this.state.severityRating.bottom + '-' + this.state.severityRating.top}>
-                    {this.state.severityRating.name}
-                </button>
-                <p>score: {this.state.score}</p>
-                <p>Score Vector : {this.state.scoreVector}</p>
+                <div style={{...styles.scoreBar}}>
+                    <h3 style={{...styles.listItemHeading}}>Severity Score Vector</h3>
+                    <button
+                        style={{...styles.listItemBtn, ...styles[this.state.severityRating.name]}}
+                        title={this.state.severityRating.bottom + '-' + this.state.severityRating.top}>
+                        {this.state.severityRating.name}
+                    </button>
+                    <span style={{...styles.listItemHeading}}>{this.state.score}</span>
+                    <span style={{...styles.listItemHeading, ...styles.scoreTextColor}}>{this.state.scoreVector}</span>
+                </div>
             </div>
         );
     }
