@@ -26,7 +26,9 @@ import CvssV3 from 'cvss-v3.1-react'
 
 
 ```js
-<CvssV3 onChange={(data)=>{
+const severityVector = "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:L";
+//severityVector is optional variable. It can be used initialize the calculator. 
+<CvssV3 severityVector={severityVector} onChange={(data)=>{
         console.log('data-----------', data);
 }}/>
 ```

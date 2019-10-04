@@ -1,7 +1,7 @@
 {
-    "name": "jw-react-npm-boilerplate-demo",
+    "name": "cvss-v3.1-react-demo",
     "version": "1.0.0",
-    "description": "React Boilerplate Component Demo",
+    "description": "CVSS V3.1 react demo",
     "license": "MIT",
     "scripts": {
         "build": "webpack",

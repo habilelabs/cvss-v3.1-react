@@ -279,7 +279,8 @@ function MatricesOption(props) {
 
 const propTypes = {
     onChange: PropTypes.func.isRequired,
-    styles: PropTypes.object
+    styles: PropTypes.object,
+    severityVector: PropTypes.string
 }
 
 const defaultProps = {
@@ -339,32 +340,39 @@ class CvssV3 extends Component {
     constructor(props) {
         super(props);
         // Base Metrics
+        let severityVectorArr = (this.props.severityVector) ? this.props.severityVector.split('/') : [];
+        let selectedMatrices = {};
+        if (severityVectorArr && severityVectorArr.length === 9) {
+            severityVectorArr.forEach((severity) => {
+                let severityArr = severity.split(':');
+                selectedMatrices[severityArr[0]] = severityArr[1];
+            });
+        }
+        let score = this.calculate(selectedMatrices);
+        let severityRating = this.severityRating(score);
         this.state = {
-            selectedMatrices: {},
-            scoreVector: 'CVSS:3.1/AV:_/AC:_/PR:_/UI:_/S:_/C:_/I:_/A:_',
-            score: 0,
-            severityRating: {
-                name: "?",
-                bottom: 'Not',
-                top: 'defined'
-            }
+            scoreVector: this.props.severityVector || 'CVSS:3.1/AV:_/AC:_/PR:_/UI:_/S:_/C:_/I:_/A:_',
+            selectedMatrices: selectedMatrices,
+            score: score,
+            severityRating: severityRating
         };
     }
+
 
     /**
      * Create createScoreVector
      * @returns {string}
      */
-    createScoreVector = () => {
+    createScoreVector = (selectedMatrices) => {
         let score = 'CVSS:3.1/AV:';
-        score += this.state.selectedMatrices['AV'] ? this.state.selectedMatrices['AV'] : '_';
-        score += "/AC:" + (this.state.selectedMatrices['AC'] ? this.state.selectedMatrices['AC'] : '_');
-        score += "/PR:" + (this.state.selectedMatrices['PR'] ? this.state.selectedMatrices['PR'] : '_');
-        score += "/UI:" + (this.state.selectedMatrices['UI'] ? this.state.selectedMatrices['UI'] : '_');
-        score += "/S:" + (this.state.selectedMatrices['S'] ? this.state.selectedMatrices['S'] : '_');
-        score += "/C:" + (this.state.selectedMatrices['C'] ? this.state.selectedMatrices['C'] : '_');
-        score += "/I:" + (this.state.selectedMatrices['I'] ? this.state.selectedMatrices['I'] : '_');
-        score += "/A:" + (this.state.selectedMatrices['A'] ? this.state.selectedMatrices['A'] : '_');
+        score += selectedMatrices['AV'] ? selectedMatrices['AV'] : '_';
+        score += "/AC:" + (selectedMatrices['AC'] ? selectedMatrices['AC'] : '_');
+        score += "/PR:" + (selectedMatrices['PR'] ? selectedMatrices['PR'] : '_');
+        score += "/UI:" + (selectedMatrices['UI'] ? selectedMatrices['UI'] : '_');
+        score += "/S:" + (selectedMatrices['S'] ? selectedMatrices['S'] : '_');
+        score += "/C:" + (selectedMatrices['C'] ? selectedMatrices['C'] : '_');
+        score += "/I:" + (selectedMatrices['I'] ? selectedMatrices['I'] : '_');
+        score += "/A:" + (selectedMatrices['A'] ? selectedMatrices['A'] : '_');
         return score;
     };
     /**
@@ -390,17 +398,17 @@ class CvssV3 extends Component {
      * Calculate severity score.
      * @returns {*}
      */
-    calculate = () => {
+    calculate = (selectedMatrices) => {
         let metricWeight = {};
         Object.keys(weight).forEach((key) => {
-            if (this.state.selectedMatrices[key] && key === 'PR') {
-                if (this.state.selectedMatrices.S) {
-                    metricWeight[key] = weight[key][this.state.selectedMatrices.S][this.state.selectedMatrices[key]];
+            if (selectedMatrices[key] && key === 'PR') {
+                if (selectedMatrices.S) {
+                    metricWeight[key] = weight[key][selectedMatrices.S][selectedMatrices[key]];
                 } else {
                     metricWeight[key] = 0;
                 }
-            } else if (this.state.selectedMatrices[key]) {
-                metricWeight[key] = weight[key][this.state.selectedMatrices[key]];
+            } else if (selectedMatrices[key]) {
+                metricWeight[key] = weight[key][selectedMatrices[key]];
             } else {
                 metricWeight[key] = 0;
             }
@@ -420,7 +428,7 @@ class CvssV3 extends Component {
         try {
             let baseScore, impactSubScore;
             let impactSubScoreMultiplier = (1 - ((1 - metricWeight.C) * (1 - metricWeight.I) * (1 - metricWeight.A)));
-            if (this.state.selectedMatrices.S === 'U') {
+            if (selectedMatrices.S === 'U') {
                 impactSubScore = metricWeight.S * impactSubScoreMultiplier;
             } else {
                 impactSubScore = metricWeight.S * (impactSubScoreMultiplier - 0.029) - 3.25 * Math.pow(impactSubScoreMultiplier - 0.02, 15);
@@ -429,7 +437,7 @@ class CvssV3 extends Component {
             if (impactSubScore <= 0) {
                 baseScore = 0;
             } else {
-                if (this.state.selectedMatrices.S === 'U') {
+                if (selectedMatrices.S === 'U') {
                     baseScore = roundUpScore(Math.min((exploitabilitySubScore + impactSubScore), 10));
                 } else {
                     baseScore = roundUpScore(Math.min((exploitabilitySubScore + impactSubScore) * scopeCoefficient, 10));
@@ -451,9 +459,9 @@ class CvssV3 extends Component {
         this.setState({
             selectedMatrices: newState
         });
-        let score = this.calculate();
+        let score = this.calculate(this.state.selectedMatrices);
         let updateState = {
-            scoreVector: this.createScoreVector(newState),
+            scoreVector: this.createScoreVector(this.state.selectedMatrices),
             score: score,
             severityRating: this.severityRating(score)
         }
