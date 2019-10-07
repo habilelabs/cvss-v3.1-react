@@ -88,6 +88,17 @@ const severityVector = "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:L";
         }
     }
 
+4 . To make it read only you can pass on optional prop readOnly=true. If you pass this then user will not be able to update the CVSS calculator. 
+
+
+```js
+const severityVector = "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:L";
+const readOnly = true;
+//severityVector is optional variable. It can be used initialize the calculator. 
+<CvssV3 severityVector={severityVector} readOnly={readOnly} onChange={(data)=>{
+        console.log('data-----------', data);
+}}/>
+```
 
 Copyright (c) 2015-2019, Shankar Morwal.
 

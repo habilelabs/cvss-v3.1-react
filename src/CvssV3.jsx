@@ -240,8 +240,11 @@ const scopeCoefficient = 1.08;
  */
 function SingleMatricesItem(props) {
     let matricesData = props.data;
+    let readOnly = props.readOnly;
     function optionSelected(option) {
-        props.selectedMatricesOption(props.data.key, option.name);
+        if(!readOnly) {
+            props.selectedMatricesOption(props.data.key, option.name);
+        }
     }
     return (
         <div style={{...props.styles.matricesItem}}>
@@ -280,7 +283,8 @@ function MatricesOption(props) {
 const propTypes = {
     onChange: PropTypes.func.isRequired,
     styles: PropTypes.object,
-    severityVector: PropTypes.string
+    severityVector: PropTypes.string,
+    readOnly: PropTypes.bool
 }
 
 const defaultProps = {
@@ -471,6 +475,7 @@ class CvssV3 extends Component {
 
     render() {
         const styles = this.props.styles || {};
+        const readOnly = this.props.readOnly || false;
         const html = true;
         const multiline= true;
         return (
@@ -480,6 +485,7 @@ class CvssV3 extends Component {
                         return (<SingleMatricesItem key={baseMatricesItem.key}
                                                     data={baseMatricesItem}
                                                     styles = {styles}
+                                                    readOnly = {readOnly}
                                                     selectedMatricesOption={this.selectedMatricesOption}
                                                     selectedOption={this.state.selectedMatrices[baseMatricesItem.key]}/>
                         )
