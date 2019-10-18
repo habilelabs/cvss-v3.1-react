@@ -1,4 +1,7 @@
-#CVSS Calculator
+![React CVSS Calculator](https://raw.githubusercontent.com/habilelabs/cvss-v3.1-react/master/cvss-calculator.jpg)
+
+
+## CVSS Calculator
 
 The CVSS (Common Vulnerability Scoring System) is an open framework that calculates the severity of software vulnerabilities in the form of a numerical value (called Base Score), ranging from 0 to 10. 
 The score value reflects whether the vulnerabilities present in the software are low, medium, high or critical in nature. 
