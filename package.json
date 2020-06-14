@@ -1,6 +1,6 @@
 {
     "name": "cvss-v3.1-react",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "CVSS V3.1 calculator",
     "homepage": "https://github.com/habilelabs/cvss-v3.1-react",
     "author": "Shankar Morwal (shankar@habilelabs.io)",
